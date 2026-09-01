@@ -1,0 +1,47 @@
+```
+# Build artifacts
+*.o
+*.obj
+*.out
+*.dylib
+*.so
+*.a
+*.dll
+*.exe
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+*.swiftmodule/
+*.hmap
+*.ipa
+*.app
+
+# Swift Package Manager
+.swiftpm/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Dependencies
+Pods/
+Carthage/
+vendor/
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# OS generated
+.DS_Store
+Thumbs.db
+```
