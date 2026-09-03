@@ -2,36 +2,52 @@
 # Build artifacts
 *.o
 *.obj
-*.swiftmodule
-*.swiftdo
-*.dylib
-*.framework
-*.app
-*.ipa
-*.dSYM/
+*.out
+build/
+dist/
 
 # Dependencies
 Pods/
 Carthage/
-build/
 DerivedData/
 *.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
 
+# Logs
+*.log
+
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
-# Editor/IDE files
+# Editor/IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
-*.log
 
 # macOS
 .DS_Store
 *.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Swift/Xcode specific
+*.swiftmodule
+*.swiftdoc
+*.xcuserdatad
+*.xccheckout
+*.moved-aside
+*.dependency
+*.deriveddata
+*.build
+*.app
+*.ipa
+*.dSYM
 ```

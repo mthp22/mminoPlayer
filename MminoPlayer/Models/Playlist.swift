@@ -6,9 +6,10 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
-final class Playlist {
+final class Playlist: @preconcurrency Hashable {
     var id: UUID
     var name: String
     var songIDs: [UUID]
@@ -82,5 +83,15 @@ final class Playlist {
         ids.move(fromOffsets: source, toOffset: destination)
         songIDs = ids
         dateModified = Date()
+    }
+    
+    // MARK: - Hashable
+    
+    nonisolated static func == (lhs: Playlist, rhs: Playlist) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    nonisolated func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

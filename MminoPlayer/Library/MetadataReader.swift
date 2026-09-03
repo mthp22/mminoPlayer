@@ -30,42 +30,42 @@ final class MetadataReader {
                 
                 switch key.lowercased() {
                 case "title", "tit2":
-                    if let value = try? await item.stringValue, !value.isEmpty {
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
                         metadata.title = value
                     }
                     
                 case "artist", "tpe1":
-                    if let value = try? await item.stringValue, !value.isEmpty {
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
                         metadata.artist = value
                     }
                     
                 case "album", "talb":
-                    if let value = try? await item.stringValue, !value.isEmpty {
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
                         metadata.album = value
                     }
                     
                 case "albumartist", "tpe2":
-                    if let value = try? await item.stringValue, !value.isEmpty {
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
                         metadata.albumArtist = value
                     }
                     
                 case "genre", "tcon":
-                    if let value = try? await item.stringValue, !value.isEmpty {
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
                         metadata.genre = value
                     }
                     
                 case "tracknumber", "trck":
-                    if let value = try? await item.stringValue {
+                    if let value = try? await item.load(.stringValue) {
                         metadata.trackNumber = Int32(value.replacingOccurrences(of: "/", with: "")) ?? 0
                     }
                     
                 case "discnumber", "tpos":
-                    if let value = try? await item.stringValue {
+                    if let value = try? await item.load(.stringValue) {
                         metadata.discNumber = Int32(value.replacingOccurrences(of: "/", with: "")) ?? 0
                     }
                     
                 case "year", "date":
-                    if let value = try? await item.stringValue, let year = Int32(value.prefix(4)) {
+                    if let value = try? await item.load(.stringValue), let year = Int32(value.prefix(4)) {
                         metadata.year = year
                     }
                     
@@ -88,10 +88,10 @@ final class MetadataReader {
         let metadata = try await asset.load(.metadata)
         
         for item in metadata {
-            let keySpace = try await item.keySpace
+            let keySpace = item.keySpace
             
             if keySpace == .common || keySpace == .id3 {
-                let key = try? await item.key() as? String
+                let key = try? await item.load(.key) as? String
                 
                 if key == "artwork" || key == "APIC" {
                     return try await item.load(.dataRepresentation)

@@ -165,8 +165,6 @@ struct AlbumDetailView: View {
         }
         .navigationTitle(album.displayTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-        }
     }
     
     private func playAll() {

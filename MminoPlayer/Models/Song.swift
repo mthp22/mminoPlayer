@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 @Model
-final class Song {
+final class Song: @preconcurrency Hashable {
     var id: UUID
     var title: String
     var artist: String?
@@ -99,5 +99,15 @@ final class Song {
     func incrementPlayCount() {
         playCount += 1
         lastPlayedDate = Date()
+    }
+    
+    // MARK: - Hashable
+    
+    nonisolated static func == (lhs: Song, rhs: Song) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    nonisolated func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
