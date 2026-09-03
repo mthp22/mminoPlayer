@@ -8,7 +8,6 @@ import SwiftUI
 import SwiftData
 
 struct LibraryView: View {
-    @Environment(\.modelContext) private var modelContext
     @ObservedObject var audioPlayer: AudioPlayer
     @StateObject private var library = MusicLibrary.shared
     
@@ -93,7 +92,6 @@ struct LibraryView: View {
             }
         }
         .onAppear {
-            library.configure(with: modelContext)
         }
     }
     
@@ -373,5 +371,4 @@ struct ArtistGridItem: View {
 
 #Preview {
     LibraryView(audioPlayer: AudioPlayer.shared)
-        .modelContainer(for: Song.self, inMemory: true)
 }

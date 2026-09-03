@@ -9,7 +9,6 @@ import SwiftData
 
 struct PlaylistsView: View {
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var library = MusicLibrary.shared
     
     @State private var showingCreatePlaylist = false
@@ -63,7 +62,6 @@ struct PlaylistsView: View {
             )
         }
         .onAppear {
-            library.configure(with: modelContext)
         }
     }
     
@@ -118,7 +116,6 @@ struct PlaylistRow: View {
 struct PlaylistDetailView: View {
     let playlist: Playlist
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var library = MusicLibrary.shared
     
     var sortedSongs: [Song] {
@@ -192,7 +189,6 @@ struct PlaylistDetailView: View {
         .navigationTitle(playlist.name)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            library.configure(with: modelContext)
         }
     }
     
@@ -249,5 +245,4 @@ struct CreatePlaylistSheet: View {
     NavigationStack {
         PlaylistsView(audioPlayer: AudioPlayer.shared)
     }
-    .modelContainer(for: [Song.self, Playlist.self], inMemory: true)
 }

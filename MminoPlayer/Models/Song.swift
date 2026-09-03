@@ -101,17 +101,3 @@ final class Song {
         lastPlayedDate = Date()
     }
 }
-
-// MARK: - Equatable & Hashable
-extension Song: Equatable, Hashable {
-    static func == (lhs: Song, rhs: Song) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-// MARK: - Identifiable
-extension Song: Identifiable {}

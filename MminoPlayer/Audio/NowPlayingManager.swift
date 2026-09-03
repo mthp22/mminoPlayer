@@ -8,6 +8,14 @@ import Foundation
 import MediaPlayer
 import SwiftUI
 
+/// Custom playback state enum to avoid AVAudioSession.PlaybackState dependency
+enum PlaybackState: Int, CaseIterable {
+    case stopped = 0
+    case playing = 1
+    case paused = 2
+    case interrupted = 3
+}
+
 final class NowPlayingManager {
     static let shared = NowPlayingManager()
     
@@ -43,7 +51,7 @@ final class NowPlayingManager {
         nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
     }
     
-    func updatePlaybackState(_ state: AVAudioSession.PlaybackState) {
+    func updatePlaybackState(_ state: PlaybackState) {
         let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
         
         // Update playback rate based on state
@@ -52,13 +60,12 @@ final class NowPlayingManager {
         switch state {
         case .playing:
             info[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
-        case .paused, .interrupted:
+        case .paused, .interrupted, .stopped:
             info[MPNowPlayingInfoPropertyPlaybackRate] = 0.0
-        case .stopped:
-            info[MPNowPlayingInfoPropertyPlaybackRate] = 0.0
+        }
+        
+        if state == .stopped {
             info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = 0
-        @unknown default:
-            info[MPNowPlayingInfoPropertyPlaybackRate] = 0.0
         }
         
         nowPlayingInfoCenter.nowPlayingInfo = info

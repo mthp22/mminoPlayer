@@ -15,19 +15,18 @@ final class FileImporter {
     let supportedTypes: [UTType] = [
         .mp3,
         .mpeg4Audio,
-        .aacProtectedAudio,
         .wav,
         .aiff,
         UTType(filenameExtension: "flac") ?? .audio,
         UTType(filenameExtension: "ogg") ?? .audio,
-        UTType(filenameExtension: "wma") ?? .audio
+        UTType(filenameExtension: "wma") ?? .audio,
+        UTType(filenameExtension: "aac") ?? .audio
     ]
     
     private init() {}
     
     func importFile(from url: URL, to destinationDirectory: URL) async throws -> Song? {
         // Generate unique filename
-        let originalFilename = url.lastPathComponent
         let fileExtension = url.pathExtension.lowercased()
         let uniqueID = UUID().uuidString
         let newFilename = "\(uniqueID).\(fileExtension)"

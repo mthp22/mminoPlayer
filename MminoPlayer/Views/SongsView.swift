@@ -9,7 +9,6 @@ import SwiftUI
 struct SongsView: View {
     let songs: [Song]
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     
     @State private var searchText = ""
     
@@ -67,5 +66,4 @@ struct SongsView: View {
     NavigationStack {
         SongsView(songs: [], audioPlayer: AudioPlayer.shared)
     }
-    .modelContainer(for: Song.self, inMemory: true)
 }

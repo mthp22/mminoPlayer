@@ -84,17 +84,3 @@ final class Playlist {
         dateModified = Date()
     }
 }
-
-// MARK: - Equatable & Hashable
-extension Playlist: Equatable, Hashable {
-    static func == (lhs: Playlist, rhs: Playlist) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-// MARK: - Identifiable
-extension Playlist: Identifiable {}

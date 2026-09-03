@@ -8,7 +8,6 @@ import SwiftUI
 
 struct SearchView: View {
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var library = MusicLibrary.shared
     
     @State private var searchText = ""
@@ -190,7 +189,6 @@ struct SearchView: View {
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $searchText, prompt: "Search songs, artists, albums, playlists")
         .onAppear {
-            library.configure(with: modelContext)
         }
     }
     
@@ -246,5 +244,4 @@ struct SearchResults {
     NavigationStack {
         SearchView(audioPlayer: AudioPlayer.shared)
     }
-    .modelContainer(for: [Song.self, Playlist.self], inMemory: true)
 }

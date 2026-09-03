@@ -8,7 +8,6 @@ import SwiftUI
 
 struct FavoritesView: View {
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var library = MusicLibrary.shared
     
     var favoriteSongs: [Song] {
@@ -51,7 +50,6 @@ struct FavoritesView: View {
         .navigationTitle("Favorites")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            library.configure(with: modelContext)
         }
     }
 }
@@ -60,5 +58,4 @@ struct FavoritesView: View {
     NavigationStack {
         FavoritesView(audioPlayer: AudioPlayer.shared)
     }
-    .modelContainer(for: Song.self, inMemory: true)
 }
