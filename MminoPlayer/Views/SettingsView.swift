@@ -8,7 +8,6 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var library = MusicLibrary.shared
     
     @State private var sleepTimerDuration: Double = 0
@@ -139,7 +138,6 @@ struct SettingsView: View {
             )
         }
         .onAppear {
-            library.configure(with: modelContext)
         }
     }
     
@@ -213,5 +211,4 @@ struct SleepTimerSheet: View {
     NavigationStack {
         SettingsView(audioPlayer: AudioPlayer.shared)
     }
-    .modelContainer(for: [Song.self, Playlist.self], inMemory: true)
 }

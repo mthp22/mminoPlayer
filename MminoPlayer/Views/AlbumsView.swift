@@ -81,7 +81,6 @@ struct AlbumCard: View {
 struct AlbumDetailView: View {
     let album: Album
     @ObservedObject var audioPlayer: AudioPlayer
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var library = MusicLibrary.shared
     
     var sortedSongs: [Song] {
@@ -166,9 +165,6 @@ struct AlbumDetailView: View {
         }
         .navigationTitle(album.displayTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            library.configure(with: modelContext)
-        }
     }
     
     private func playAll() {
@@ -187,5 +183,4 @@ struct AlbumDetailView: View {
     NavigationStack {
         AlbumsView(albums: [], audioPlayer: AudioPlayer.shared)
     }
-    .modelContainer(for: Song.self, inMemory: true)
 }

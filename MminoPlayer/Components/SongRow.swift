@@ -28,7 +28,10 @@ struct SongRow: View {
     }
     
     var body: some View {
-        GlassCard(padding: AppTheme.spacingSM, cornerRadius: AppTheme.cornerRadiusMD) {
+        GlassCard(
+            padding: AppTheme.spacingSM,
+            cornerRadius: AppTheme.cornerRadiusMD
+        ) {
             HStack(spacing: AppTheme.spacingMD) {
                 // Artwork
                 AlbumArtwork(

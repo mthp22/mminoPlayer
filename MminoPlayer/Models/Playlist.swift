@@ -6,9 +6,10 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
-final class Playlist {
+final class Playlist: @preconcurrency Hashable {
     var id: UUID
     var name: String
     var songIDs: [UUID]
@@ -83,18 +84,14 @@ final class Playlist {
         songIDs = ids
         dateModified = Date()
     }
-}
-
-// MARK: - Equatable & Hashable
-extension Playlist: Equatable, Hashable {
-    static func == (lhs: Playlist, rhs: Playlist) -> Bool {
+    
+    // MARK: - Hashable
+    
+    nonisolated static func == (lhs: Playlist, rhs: Playlist) -> Bool {
         lhs.id == rhs.id
     }
     
-    func hash(into hasher: inout Hasher) {
+    nonisolated func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
-
-// MARK: - Identifiable
-extension Playlist: Identifiable {}

@@ -61,7 +61,7 @@ final class ArtworkManager {
             ]
             
             let gradient = CGGradient(colorsSpace: nil, colors: colors as CFArray, locations: [0, 1])!
-            context.fill(CGRect(x: 0, y: 0, width: size, height: size), blendMode: .normal, alpha: 1.0)
+            context.fill(CGRect(x: 0, y: 0, width: size, height: size))
             
             // Draw music note
             let image = UIImage(systemName: "music.note")?

@@ -8,9 +8,10 @@ import Foundation
 import AVFoundation
 import SwiftUI
 import Combine
+import MediaPlayer
 
 @MainActor
-final class AudioPlayer: ObservableObject {
+final class AudioPlayer: NSObject, ObservableObject {
     static let shared = AudioPlayer()
     
     // MARK: - Published Properties
@@ -38,10 +39,11 @@ final class AudioPlayer: ObservableObject {
     private var currentShuffleIndex: Int = 0
     
     // MARK: - Initialization
-    private init() {
+    private override init() {
         self.nowPlayingManager = NowPlayingManager.shared
         self.remoteCommandManager = RemoteCommandManager.shared
         
+        super.init()
         setupRemoteCommands()
         configureAudioSession()
     }
@@ -312,8 +314,8 @@ final class AudioPlayer: ObservableObject {
         )
     }
     
-    private func updateNowPlayingInfo(state: AVAudioSession.PlaybackState? = nil, elapsedTime: Double? = nil) {
-        var stateValue: AVAudioSession.PlaybackState? = state
+    private func updateNowPlayingInfo(state: PlaybackState? = nil, elapsedTime: Double? = nil) {
+        var stateValue: PlaybackState? = state
         
         if state == nil {
             stateValue = isPlaying ? .playing : .paused

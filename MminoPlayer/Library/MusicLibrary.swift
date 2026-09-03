@@ -7,6 +7,7 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import Combine
 
 @MainActor
 final class MusicLibrary: ObservableObject {
