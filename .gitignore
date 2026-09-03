@@ -2,46 +2,81 @@
 # Build artifacts
 *.o
 *.obj
-*.out
-*.dylib
-*.so
 *.a
+*.lib
 *.dll
+*.so
+*.dylib
 *.exe
+*.out
 
 # Xcode
 *.xcodeproj/
 *.xcworkspace/
-*.swiftmodule/
-*.hmap
-*.ipa
-*.app
+*.pbxuser
+*.mode1v3
+*.perspectivev3
+*.xcuserstate
+*.xcuserdata
+build/
+DerivedData/
 
-# Swift Package Manager
-.swiftpm/
+# Swift
+*.swiftmodule
+*.swiftdoc
+*.swiftsourceinfo
+
+# Dependencies
+Carthage/
+Pods/
+vendor/
+
+# Logs
+*.log
+*.out
 
 # Temporary files
 *.tmp
-*.swp
-*.swo
-*.log
+*.temp
+*.bak
 
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
 
-# Dependencies
-Pods/
-Carthage/
-vendor/
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Coverage
 .coverage
 coverage/
 htmlcov/
 
-# OS generated
-.DS_Store
-Thumbs.db
+# Archives
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```
