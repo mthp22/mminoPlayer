@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "MminoPlayer_1024.jpg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -12,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "siQMd.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -23,6 +25,7 @@
           "value" : "tinted"
         }
       ],
+      "filename" : "MminoPlayer_Tinted.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
