@@ -2,23 +2,26 @@
 //  MiniPlayer.swift
 //  MminoPlayer
 //
-//  Persistent mini-player component
+//  Persistent mini-player
+//  AudioPlayer state.
 
 import SwiftUI
 
 struct MiniPlayer: View {
     @ObservedObject var audioPlayer: AudioPlayer
     let onTap: () -> Void
-    
-    @State private var isDragging = false
-    
+
     var body: some View {
-        GlassCard(padding: AppTheme.spacingSM, cornerRadius: AppTheme.cornerRadiusXL) {
+        GlassCard(
+            padding: AppTheme.spacingSM,
+            cornerRadius: AppTheme.cornerRadiusXL
+        ) {
             HStack(spacing: AppTheme.spacingMD) {
-                // Artwork
                 if let song = audioPlayer.currentSong {
+                    // Artwork
                     AlbumArtwork(
                         artworkData: song.artworkData,
+                        artworkID: song.id.uuidString,
                         size: AppTheme.artworkSizeMini,
                         cornerRadius: AppTheme.cornerRadiusSM
                     )
@@ -44,45 +47,52 @@ struct MiniPlayer: View {
                                 
                                 RoundedRectangle(cornerRadius: 2)
                                     .fill(AppColors.lime)
-                                    .frame(width: geometry.size.width * audioPlayer.progress, height: 4)
+                                    .frame(
+                                        width: geometry.size.width * min(max(audioPlayer.progress, 0), 1),
+                                        height: 4
+                                    )
                             }
                         }
                         .frame(height: 4)
+                        .accessibilityElement()
+                        .accessibilityLabel("Playback progress")
+                        .accessibilityValue(
+                            "\(Song.formatDuration(audioPlayer.currentTime)) of \(Song.formatDuration(audioPlayer.duration))"
+                        )
                     }
-                    
-                    Spacer()
-                    
+
+                    Spacer(minLength: AppTheme.spacingXS)
+
                     // Controls
                     HStack(spacing: AppTheme.spacingMD) {
-                        Button(action: {
-                            audioPlayer.skipToPrevious()
-                        }) {
+                        Button(action: { audioPlayer.skipToPrevious() }) {
                             Image(systemName: "backward.fill")
                                 .font(.system(size: 18))
                                 .foregroundColor(AppColors.white)
+                                .frame(width: 44, height: 44)
                         }
-                        
-                        Button(action: {
-                            if audioPlayer.isPlaying {
-                                audioPlayer.pause()
-                            } else {
-                                audioPlayer.resume()
-                            }
-                        }) {
+                        .accessibilityLabel("Previous track")
+
+                        Button(action: { audioPlayer.togglePlayPause() }) {
                             Image(systemName: audioPlayer.isPlaying ? "pause.circle.fill" : "play.circle.fill")
                                 .font(.system(size: 32))
                                 .foregroundColor(AppColors.lime)
+                                .frame(width: 44, height: 44)
                         }
+                        .accessibilityLabel(audioPlayer.isPlaying ? "Pause" : "Play")
                     }
                 } else {
                     Text("No song playing")
                         .foregroundColor(AppColors.grayLight)
+                        .frame(maxWidth: .infinity)
                 }
             }
         }
         .contentShape(Rectangle())
         .onTapGesture(perform: onTap)
         .shadow(color: AppColors.green.opacity(0.2), radius: 10, y: -2)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("MiniPlayer")
     }
 }
 

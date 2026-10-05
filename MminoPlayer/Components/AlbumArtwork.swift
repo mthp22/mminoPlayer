@@ -2,25 +2,27 @@
 //  AlbumArtwork.swift
 //  MminoPlayer
 //
-//  Artwork display component with caching
+//  Artwork display component backed by the shared ArtworkManager cache.
 
 import SwiftUI
+import UIKit
 
 struct AlbumArtwork: View {
     let artworkData: Data?
+    let artworkID: String
     let size: CGFloat
     let cornerRadius: CGFloat
     let showPlaceholder: Bool
-    
-    @State private var image: UIImage?
-    
+
     init(
         artworkData: Data?,
+        artworkID: String = "",
         size: CGFloat = AppTheme.artworkSizeMedium,
         cornerRadius: CGFloat = AppTheme.cornerRadiusLG,
         showPlaceholder: Bool = true
     ) {
         self.artworkData = artworkData
+        self.artworkID = artworkID
         self.size = size
         self.cornerRadius = cornerRadius
         self.showPlaceholder = showPlaceholder
@@ -28,12 +30,15 @@ struct AlbumArtwork: View {
     
     var body: some View {
         ZStack {
-            if let imageData = artworkData, let uiImage = loadImage(from: imageData) {
+            if let uiImage = resolvedImage {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
+                    .frame(width: size, height: size)
+                    .clipped()
             } else if showPlaceholder {
                 placeholderView
+                    .frame(width: size, height: size)
             }
             
             // Subtle gradient overlay for depth
@@ -49,6 +54,7 @@ struct AlbumArtwork: View {
         .frame(width: size, height: size)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .shadow(color: .black.opacity(0.3), radius: 8, y: 4)
+        .accessibilityHidden(true)
     }
     
     private var placeholderView: some View {
@@ -62,57 +68,18 @@ struct AlbumArtwork: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            
-            // Music note icon
+
             Image(systemName: "music.note")
                 .font(.system(size: size * 0.35))
                 .fontWeight(.light)
                 .foregroundColor(AppColors.grayMedium)
         }
     }
-    
-    private func loadImage(from data: Data) -> UIImage? {
-        // Cache the loaded image to avoid repeated decoding
-        if image == nil {
-            image = UIImage(data: data)
-        }
-        return image
-    }
-}
 
-// MARK: - Artwork cache manager
-final class ArtworkCacheManager {
-    static let shared = ArtworkCacheManager()
-    
-    private let cache = NSCache<NSString, UIImage>()
-    private let maxCacheSize: Int = 100 * 1024 * 1024 // 100MB
-    
-    private init() {
-        cache.countLimit = 500
-        cache.totalCostLimit = maxCacheSize
-    }
-    
-    func image(for songID: String, data: Data?) -> UIImage? {
-        guard let data = data else { return nil }
-        
-        let key = songID as NSString
-        
-        // Check cache first
-        if let cachedImage = cache.object(forKey: key) {
-            return cachedImage
-        }
-        
-        // Load and cache
-        if let image = UIImage(data: data) {
-            cache.setObject(image, forKey: key, cost: data.count)
-            return image
-        }
-        
-        return nil
-    }
-    
-    func clearCache() {
-        cache.removeAllObjects()
+    private var resolvedImage: UIImage? {
+        guard let artworkData else { return nil }
+        let key = artworkID.isEmpty ? "anonymous-\(artworkData.count)" : artworkID
+        return ArtworkManager.shared.image(forID: key, data: artworkData)
     }
 }
 
